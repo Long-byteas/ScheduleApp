@@ -16,10 +16,12 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-calendars": "^1.1266.0",
     "react-native-date-picker": "^3.3.2",
+    "react-native-pager-view": "5.0.12",
+    "react-native-paper": "^4.9.2",
     "react-native-web": "~0.13.12",
-    "rn-viewpager": "^1.2.9",
-    "react-native-pager-view": "5.0.12"
+    "rn-viewpager": "^1.2.9"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
