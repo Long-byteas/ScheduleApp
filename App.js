@@ -5,7 +5,6 @@ import PagerView from 'react-native-pager-view';
 import Review from './container/DailyReview';
 import Calendar from './container/Calendar';
 import Add from './container/AddEvent';
-var firebase = require('firebase')
 
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
