@@ -13,8 +13,7 @@ export default function Task(props) {
     <View style={styles.items}>
         <View style={styles.itemLeft}>
             <TouchableOpacity style={styles.square}></TouchableOpacity>
-            
-            <Text style={styles.itemText}> This is a task {props.text} </Text>
+            <Text style={styles.itemText}> this is {props.text} </Text>
         </View>
         <View style={styles.circular}></View>
     </View>

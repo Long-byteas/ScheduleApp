@@ -51,7 +51,6 @@ export default function CalendarView() {
           for( let i=0;i<numItem;i++){
               var name = data.date[i];
               if(data.date[i].time.match(strTime)){
-                console.log(name);
                 items[strTime].push({
                   name : data.date[i].name,
                   height: Math.max(50, Math.floor(Math.random() * 150)),
