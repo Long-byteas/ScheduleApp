@@ -13,51 +13,64 @@ const timeToString = (date) => {
   return date.toISOString().split('T')[0];
 };
 
-export default function Review() {
-  const [items, setItems] = useState([]);
 
+class DailyReview extends React.Component{
+  constructor(props) {
+    super(props);
+    this.date = new Date();
+    this.dateExact = timeToString(this.date);
+    this.items = [];
+    this.load();
+  }
 
-  function load() {
+  load() {
+    //const [items, setItems] = useState([]);
+    // load date into items
     var numItem = data.date.length;
-    var date = new Date();
-    var  dateExact = timeToString(date);
-    console.log(dateExact);
+    console.log(this.dateExact);
     //var current = year + '-' + month + '-' + date;
     for( let i=0;i<numItem;i++){
-      if(data.date[i].time.match(dateExact)){
-        setItems([...items,{
+      if(data.date[i].time.match(this.dateExact)){
+        this.items.push({
           name : data.date[i].name,
           height: Math.max(50, Math.floor(Math.random() * 150)),
           timeOfthis: data.date[i].time,
           eventOnThis:  data.date[i].description
-        }]);
+        });
       }
     }
   };
 
-  function load2(){
-    var what = items.map((stuff,index) => {
-      console.log(index);
-      return (<Task key={index} text ={stuff.eventOnThis} />);
-    })
-    return what;
+  displayEvent(){
+    if(this.items != null){
+      var what = this.items.map((stuff,index) => {
+        return (<Task key={index} text ={stuff.eventOnThis} />);
+      })
+      return what;
+    }
   }
-  return (
-    <SafeAreaView style={styles.container}>
-    <View style={styles.taskWrapper}>
-      <Text style= {styles.sectionTile}>This is daily review</Text>
-      <StatusBar style="auto" />
-      <Button title="Click me" onPress={() => load()} />
-      {/* task go here */}
+
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
       <View style={styles.taskWrapper}>
-        {
-          load2()
-        }
-      </View> 
-    </View>
-    </SafeAreaView>
-  );
+        <Text style= {styles.sectionTile}>Today is {this.dateExact}</Text>
+        <StatusBar style="auto" />
+        {/* task go here */}
+        <ScrollView style={styles.taskWrapper}>
+          {
+            this.displayEvent()
+          }
+        </ScrollView>
+        <View>
+          
+        </View> 
+      </View>
+      </SafeAreaView>
+    );
+  }
 }
+export default DailyReview;
 
 const styles = StyleSheet.create({
   container: {
@@ -82,3 +95,4 @@ const styles = StyleSheet.create({
     
   },
 });
+
