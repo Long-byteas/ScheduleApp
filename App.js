@@ -5,6 +5,7 @@ import PagerView from 'react-native-pager-view';
 import Review from './container/DailyReview';
 import Calendar from './container/Calendar';
 import Add from './container/AddEvent';
+//import TestDb from './container/testDB';
 
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -23,6 +24,9 @@ export default function App() {
     </View>
     <View key="3">
       <Add/>
+    </View>
+    <View key="4">
+      
     </View>
   </PagerView>
   );
