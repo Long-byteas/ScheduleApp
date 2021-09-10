@@ -5,6 +5,7 @@ import Task from './components/Task';
 //import * as data from '../data/dataTest.json';
 import firebaseConfig from '../Config';
 import firebase from 'firebase'
+import { getEvent } from './api/DatabaseInteractApi';
 
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -80,17 +81,13 @@ class DailyReview extends React.Component{
     }
   }
 
+  OnEventReceived = (eventList) =>{
+    this.setState(prevState => ({
+      eventList:prevState.eventList =eventList
+    }));
+  }
   componentDidMount() {
-    const reference = firebase.database().ref('/date').once('value').then(snapshot => {
-      //console.log('User data: ', snapshot.val());
-      snapshot.val().forEach(doc => {
-        if(doc.time.match(this.dateExact)){
-          this.state.eventList.push(doc);
-        }
-        //console.log(doc)
-      });
-      this.setState({eventList:this.state.eventList})
-    });
+    getEvent(this.OnEventReceived,this.dateExact)
   }
 
   componentDidUpdate() {
