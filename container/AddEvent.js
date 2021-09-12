@@ -11,42 +11,10 @@ const logo = {
 export default function Add() {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>This is daily review</Text>
+    <View style={styles.taskWrapper}>
+      <Text style= {styles.sectionTile}> Event Add </Text>
       <StatusBar style="auto" />
-      <Button title="Click me" onPress={()=> alert("shit")} />
-    <ScrollView>
-        <Text style={{ fontSize: 96 }}>Suck my D plz</Text>
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Text style={{ fontSize: 96 }}>If you like</Text>
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Text style={{ fontSize: 96 }}>Scrolling down</Text>
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Text style={{ fontSize: 96 }}>What's the best</Text>
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Text style={{ fontSize: 96 }}>Framework around?</Text>
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Image source={logo} />
-        <Text style={{ fontSize: 80 }}>React Native</Text>
-    </ScrollView> 
+    </View>
     </SafeAreaView>
   );
 }
@@ -54,11 +22,23 @@ export default function Add() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#E8EAED',
+ 
   },
   backGround:{
     backgroundColor: 'orange',
+  },
+  taskWrapper:{
+      paddingTop :20,
+      paddingHorizontal:20,
+  },
+  sectionTile:{
+    fontSize:24,
+    fontWeight:'bold',
+    alignItems: 'center',
+  },
+  items:{
+    marginTop:20,
+    
   },
 });

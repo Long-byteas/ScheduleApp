@@ -74,7 +74,6 @@ class DailyReview extends React.Component{
 
   displayEvent(){
     if(this.items != null){
-      console.log("asdhaskdhkas");
       var what = this.items.map((stuff,index) => {
         return (<Task key={index} text ={stuff.eventOnThis} />);
       })
@@ -100,18 +99,12 @@ class DailyReview extends React.Component{
     return (
       <SafeAreaView style={styles.container}>
       <View style={styles.taskWrapper}>
-        <Text style= {styles.sectionTile}>Today is {this.dateExact}</Text>
+        <Text style= {styles.sectionTile}> {this.dateExact}'s Task </Text>
         <StatusBar style="auto" />
-        {/* task go here */}
-        {/* <ScrollView style={styles.taskWrapper} data={this.state.eventList}>
-          {
-            this.displayEvent()
-          }
-        </ScrollView> */}
         <FlatList
           data={this.state.eventList}
           renderItem={({item,index}) => {
-            return (<Task key={index} text ={item.name} />);
+            return (<Task key={index} text ={item.name} desc={item.description} time={item.time}/>);
           }
           }
           keyExtractor={item => item.id}

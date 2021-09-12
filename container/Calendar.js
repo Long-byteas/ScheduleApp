@@ -17,13 +17,15 @@ export default function CalendarView() {
   const [items, setItems] = useState({});
   const [dialogVisible, setDialog] = useState(false);
   const [itemName, setItemName] = useState("");
+  const [itemDescription, setItemDescription] = useState("");
+  const [itemTime, setItemTime] = useState("");
+  const [itemHours, setItemHours] = useState("");
   const loadItems = (day) => {
     // create and add each day into items (which is each day)
     //  every day we load a item
     const reference = firebase.database().ref('/date').on('value',snapshot => {
       //console.log('User data: ', snapshot.val());
       data = snapshot.val();
-      console.log("ahahahahaahaha");
       setTimeout(() => {
         for (let i = -15; i < 85; i++) {
           const time = day.timestamp + i * 24 * 60 * 60 * 1000;
@@ -79,12 +81,15 @@ function connect(){
         title={itemName}
         onTouchOutside={() => setDialog(false)} >
         <View>
-          <Text> {itemName} </Text>
+          <Text> {itemTime} </Text>
+          <Text> {itemDescription} </Text>
         </View>
       </Dialog>
       <TouchableOpacity style={{marginRight: 10, marginTop: 17}} onPress={() => {
         setDialog(true)
         setItemName(item.name);
+        setItemDescription(item.eventOnThis);
+        setItemTime(item.timeOfthis)
         }}>
         <Card>
           <Card.Content>
@@ -92,7 +97,6 @@ function connect(){
               style={styles.event}>
               <Text>{item.name}</Text>
               <Text>{item.timeOfthis}</Text>
-              <Text>{item.eventOnThis}</Text>
             </View>
           </Card.Content>
         </Card>

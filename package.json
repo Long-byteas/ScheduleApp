@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/checkbox": "^0.5.8",
     "@react-native-community/datetimepicker": "^3.5.2",
     "@shankarmorwal/rn-viewpager": "^1.3.1",
     "expo": "~42.0.1",
