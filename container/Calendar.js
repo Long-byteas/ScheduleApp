@@ -20,15 +20,15 @@ export default function CalendarView() {
   const loadItems = (day) => {
     // create and add each day into items (which is each day)
     //  every day we load a item
-    const reference = firebase.database().ref('/date').once('value').then(snapshot => {
+    const reference = firebase.database().ref('/date').on('value',snapshot => {
       //console.log('User data: ', snapshot.val());
       data = snapshot.val();
-      // console.log(this.data);
+      console.log("ahahahahaahaha");
       setTimeout(() => {
         for (let i = -15; i < 85; i++) {
           const time = day.timestamp + i * 24 * 60 * 60 * 1000;
           const strTime = timeToString(time);
-          if (!items[strTime]) {
+          if (!items[strTime]||true) {
             items[strTime] = [];
             var numItem = data.length;
             for( let i=0;i<numItem;i++){

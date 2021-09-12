@@ -26,6 +26,7 @@ class DailyReview extends React.Component{
     this.dateExact = timeToString(this.date);
     this.items=[];
     this.connect();
+    
   }
 
   state = {
@@ -110,7 +111,6 @@ class DailyReview extends React.Component{
         <FlatList
           data={this.state.eventList}
           renderItem={({item,index}) => {
-            console.log("asdhashdakjsdh");
             return (<Task key={index} text ={item.name} />);
           }
           }
