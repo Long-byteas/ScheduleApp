@@ -25,7 +25,7 @@ export default function CalendarView() {
     //  every day we load a item
     const reference = firebase.database().ref('/date').on('value',snapshot => {
       //console.log('User data: ', snapshot.val());
-      data = snapshot.val();
+      data =  Object.values(snapshot.val());
       setTimeout(() => {
         for (let i = -15; i < 85; i++) {
           const time = day.timestamp + i * 24 * 60 * 60 * 1000;
