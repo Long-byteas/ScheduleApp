@@ -6,6 +6,7 @@ import {Card, Avatar} from 'react-native-paper';
 //import * as data from '../data/dataTest.json'
 import firebase from 'firebase'
 import { Dialog } from 'react-native-simple-dialogs';
+import { getEventCalendar } from './api/DatabaseInteractApi';
 
 const timeToString = (time) => {
   const date = new Date(time);
@@ -23,38 +24,39 @@ export default function CalendarView() {
   const loadItems = (day) => {
     // create and add each day into items (which is each day)
     //  every day we load a item
-    const reference = firebase.database().ref('/date').on('value',snapshot => {
-      //console.log('User data: ', snapshot.val());
-      data =  Object.values(snapshot.val());
-      setTimeout(() => {
-        for (let i = -15; i < 85; i++) {
-          const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-          const strTime = timeToString(time);
-          if (!items[strTime]||true) {
-            items[strTime] = [];
-            var numItem = data.length;
-            for( let i=0;i<numItem;i++){
-                //var name = data.date[i];
-                if(data[i].time.match(strTime)){
-                  items[strTime].push({
-                    name : data[i].name,
-                    height: Math.max(50, Math.floor(Math.random() * 150)),
-                    timeOfthis: data[i].time,
-                    eventOnThis:  data[i].description
-                  });
-                }
-            }
-          }
-        }
-        const newItems = {};
-        Object.keys(items).forEach((key) => {
-          newItems[key] = items[key];
-        });
-        setItems(newItems);
-      }, 1000);
-    });
+    getEventCalendar(getData,day);
   };
 
+  function getData(day,data){
+    setTimeout(() => {
+      for (let i = -15; i < 85; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = timeToString(time);
+        if (!items[strTime]||true) {
+          items[strTime] = [];
+          var numItem = data.length;
+          for( let i=0;i<numItem;i++){
+              //var name = data.date[i];
+              //console.log(data[i].id)
+              if(data[i].time.match(strTime)){
+                items[strTime].push({
+                  name : data[i].name,
+                  height: Math.max(50, Math.floor(Math.random() * 150)),
+                  timeOfthis: data[i].time,
+                  eventOnThis:  data[i].description,
+                  id: data[i].id
+                });
+              }
+          }
+        }
+      }
+      const newItems = {};
+      Object.keys(items).forEach((key) => {
+        newItems[key] = items[key];
+      });
+      setItems(newItems);
+    }, 1000);
+  }
 function connect(){
     const firebaseConfig = {
       apiKey: "AIzaSyArQ934vak4WKrGkb53spR9i_k2CMsT4sE",
@@ -89,7 +91,7 @@ function connect(){
         setDialog(true)
         setItemName(item.name);
         setItemDescription(item.eventOnThis);
-        setItemTime(item.timeOfthis)
+        setItemTime(item.timeOfthis);
         }}>
         <Card>
           <Card.Content>
@@ -97,6 +99,7 @@ function connect(){
               style={styles.event}>
               <Text>{item.name}</Text>
               <Text>{item.timeOfthis}</Text>
+              <Text>{item.id}</Text>
             </View>
           </Card.Content>
         </Card>

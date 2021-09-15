@@ -51,7 +51,13 @@ export default function Add() {
         keyboardType = 'numeric'
         style={styles.numBox}
         placeholder="17"
-        onChangeText={day => setDay(day)}
+        onChangeText={day => {
+          if(parseInt(day,10)>30){
+            day="30";
+          }
+          setDay(day)
+        }
+        }
         defaultValue={day}
       />
       <Text>-</Text>
@@ -60,7 +66,12 @@ export default function Add() {
         keyboardType = 'numeric'
         style={styles.numBox}
         placeholder="11"
-        onChangeText={month => setMonth(month)}
+        onChangeText={month => {
+          if(parseInt(month,10)>12){
+            month="12";
+          }
+          setMonth(month)}
+        }
         defaultValue={month}
       />
       <Text>-</Text>
@@ -73,9 +84,11 @@ export default function Add() {
         defaultValue={year}
       />
       </View>
+      <Text> Your Description : </Text>
       <TextInput
-        style={styles.textBox}
-        placeholder="Your awesome event name"
+        style={styles.inputContainer}
+        multiline
+        placeholder="Your description"
         onChangeText={description => setDescription(description)}
         defaultValue={description}
       />
@@ -150,7 +163,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems:'center'
   },inputContainer: {
-    marginTop:100,
+    marginTop:0,
     flexDirection: "row",
     alignSelf: "center",
     width: "96%",
