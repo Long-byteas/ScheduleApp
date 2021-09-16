@@ -30,7 +30,11 @@ export default function Add() {
 
   };
   function clear(){
-
+    setDay('');
+    setMonth('');
+    setText('');
+    setYear('');
+    setDescription('');
   }
   return (
     <SafeAreaView style={styles.container}>

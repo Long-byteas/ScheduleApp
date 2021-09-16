@@ -29,9 +29,9 @@ export function writeEvent(){
 
 }
 
-export function deleteEvent(event){
-  //await database().ref('/users/'+event.id).remove();
-
+export function deleteEvent(id){
+  firebase.database().ref('/date/'+id).set(null);
+  console.log(id)
 }
 
 export function getEventCalendar(eventReceived,day){
@@ -46,3 +46,4 @@ export function getEventCalendar(eventReceived,day){
       eventReceived(day,data);
   });
 }
+

@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import React, {useState,useEffect} from 'react';
-import {View, TouchableOpacity,Text,StyleSheet} from 'react-native';
+import {View, TouchableOpacity,Text,StyleSheet,Button} from 'react-native';
 import {Card, Avatar} from 'react-native-paper';
 //import * as data from '../data/dataTest.json'
 import firebase from 'firebase'
 import { Dialog } from 'react-native-simple-dialogs';
 import { getEventCalendar } from './api/DatabaseInteractApi';
-
+import { deleteEvent } from './api/DatabaseInteractApi';
 const timeToString = (time) => {
   const date = new Date(time);
   return date.toISOString().split('T')[0];
@@ -21,6 +21,7 @@ export default function CalendarView() {
   const [itemDescription, setItemDescription] = useState("");
   const [itemTime, setItemTime] = useState("");
   const [itemHours, setItemHours] = useState("");
+  const [itemID, setID] = useState("");
   const loadItems = (day) => {
     // create and add each day into items (which is each day)
     //  every day we load a item
@@ -74,6 +75,7 @@ function connect(){
       firebase.app();
     }
 }
+
   const renderItem = (item) => {
     //console.log(data.date[1].name);
     return (
@@ -85,6 +87,13 @@ function connect(){
         <View>
           <Text> {itemTime} </Text>
           <Text> {itemDescription} </Text>
+          <Text> {itemID} </Text>
+          <Button
+          title="Delete"
+          onPress={() => 
+            deleteEvent(itemID)
+          }
+        />
         </View>
       </Dialog>
       <TouchableOpacity style={{marginRight: 10, marginTop: 17}} onPress={() => {
@@ -92,6 +101,7 @@ function connect(){
         setItemName(item.name);
         setItemDescription(item.eventOnThis);
         setItemTime(item.timeOfthis);
+        setID(item.id);
         }}>
         <Card>
           <Card.Content>
