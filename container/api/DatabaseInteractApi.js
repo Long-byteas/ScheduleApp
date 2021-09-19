@@ -36,14 +36,36 @@ export function deleteEvent(id){
 
 export function getEventCalendar(eventReceived,day){
   const reference = firebase.database().ref('/date').on('value',snapshot => {
-      data = Object.values(snapshot.val());
+      var data = Object.values(snapshot.val());
       const key = Object.keys(snapshot.val());
       //console.log(key);
       data.forEach((stuff,index)=>{
         stuff.id = key[index];
       })
-      console.log((data));
       eventReceived(day,data);
   });
 }
 
+export function validUser(username,password,accept,decline){
+  const reference = firebase.database().ref('/user').on('value',snapshot => {
+    var eventList = [];
+    // snapshot.child().forEach(eventTest => {
+    const value = Object.values(snapshot.val());
+    const key = Object.keys(snapshot.val());
+    // })
+    var isRight = false;
+    value.forEach((doc,index) => {
+      if(doc.username.match(username)){
+        if(doc.password.match(password)){
+          accept();
+          isRight=true;
+          console.log("asjdaskhd");
+          return;
+        } else {
+          decline();
+        }
+      }
+    });
+    
+  });
+}

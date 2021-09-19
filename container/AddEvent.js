@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image,StyleSheet, Text, View, ScrollView,SafeAreaView,Button,TextInput,Alert} from 'react-native';
-import React, {useState,useEffect} from 'react';
+import { StyleSheet, Text, View,SafeAreaView,Button,TextInput,Alert} from 'react-native';
+import React, {useState} from 'react';
 import { updateEvent } from './api/DatabaseInteractApi';
 
 const logo = {
@@ -83,7 +83,7 @@ export default function Add() {
         maxLength = {4}
         keyboardType = 'numeric'
         style={styles.yearBox}
-        placeholder="2000"
+        placeholder="2021"
         onChangeText={year => setYear(year)}
         defaultValue={year}
       />

@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import React,{useState,useEffect} from 'react';
+import React from 'react';
 import { Image,StyleSheet, Text, View, ScrollView,SafeAreaView,Button, FlatList} from 'react-native';
 import Task from './components/Task';
 //import * as data from '../data/dataTest.json';
-import firebaseConfig from '../Config';
 import firebase from 'firebase'
 import { getEvent } from './api/DatabaseInteractApi';
+import { getWeatherNow } from './api/WeatherApi';
+import * as Location from 'expo-location';
+import { Dialog } from 'react-native-simple-dialogs';
 
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -30,7 +32,15 @@ class DailyReview extends React.Component{
   }
 
   state = {
-    eventList : []
+    eventList : [],
+    geoLocation: {},
+    geoError:null,
+    dialogVisible:false,
+    weather: "",
+    temp:0,
+    humidity:0,
+    cloudsRate:0,
+    icon:""
   };
 
   connect(){
@@ -72,6 +82,7 @@ class DailyReview extends React.Component{
   };
 
 
+
   displayEvent(){
     if(this.items != null){
       var what = this.items.map((stuff,index) => {
@@ -91,17 +102,58 @@ class DailyReview extends React.Component{
   }
 
   componentDidUpdate() {
-    console.log(this.state.eventList.length);
+    //console.log(this.state.eventList.length);
   }
 
+  async showWeather(){
+    let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        getWeatherNow("40.7128", "-74.0060")
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      getWeatherNow(location.coords.latitude, location.coords.longitude,this.setWeather);
+  }
 
+  setWeather = (cloudRate,humidity,temp,weather) =>{
+    this.setState({
+      cloudsRate:cloudRate,
+      humidity:humidity,
+      temp:temp,
+      weather:weather,
+    })
+  }
+  
   render() {
     return (
       <SafeAreaView style={styles.container}>
       <View style={styles.taskWrapper}>
+      <Button
+          title="Show weather"
+          onPress={() => {
+            this.showWeather()
+            this.setState({
+              dialogVisible:true
+            })
+          }
+          }
+        />
+      <Dialog 
+        visible={this.state.dialogVisible} 
+        title= " Today Weather "
+        onTouchOutside={() => this.setState({
+          dialogVisible:false
+        })} >
+          <View>
+            <Text> {this.state.weather} tmp is {this.state.temp}  </Text>
+            <Text> {this.state.cloudsRate} </Text>
+            <Text> {this.state.humidity} </Text>
+          </View>
+        </Dialog>
         <Text style= {styles.sectionTile}> {this.dateExact}'s Task </Text>
         <StatusBar style="auto" />
         <FlatList
+          title = "Important"
           data={this.state.eventList}
           renderItem={({item,index}) => {
             return (<Task key={index} text ={item.name} desc={item.description} time={item.time}/>);
