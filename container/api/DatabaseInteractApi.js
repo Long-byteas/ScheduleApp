@@ -1,7 +1,9 @@
 import firebase from 'firebase'
 
-export function getEvent(eventReceived,dateExact){
-    const reference = firebase.database().ref('/date').on('value',snapshot => {
+export function getEvent(eventReceived,dateExact,userKey){
+    console.log(userKey)
+    console.log("asdhaskjdh")
+    const reference = firebase.database().ref(`/${userKey}`).on('value',snapshot => {
         var eventList = [];
         // snapshot.child().forEach(eventTest => {
         const value = Object.values(snapshot.val());
@@ -18,8 +20,8 @@ export function getEvent(eventReceived,dateExact){
       });
 }
 
-export function updateEvent(event){
-  const newReference = firebase.database().ref('/date').push();
+export function updateEvent(event,userKey){
+  const newReference = firebase.database().ref(`/${userKey}`).push();
   newReference
   .set(event)
   .then(() => console.log('pushed.'));
@@ -29,13 +31,18 @@ export function writeEvent(){
 
 }
 
-export function deleteEvent(id){
-  firebase.database().ref('/date/'+id).set(null);
+export function deleteEvent(id,userKey){
+  firebase.database().ref(`/${userKey}`+id).set(null);
   console.log(id)
 }
 
-export function getEventCalendar(eventReceived,day){
-  const reference = firebase.database().ref('/date').on('value',snapshot => {
+export function pushNewKey(key){
+  console.log("push")
+  const newReference = firebase.database().ref().child(`${key}`).set("new");
+}
+
+export function getEventCalendar(eventReceived,day,userKey){
+  const reference = firebase.database().ref(`/${userKey}`).on('value',snapshot => {
       var data = Object.values(snapshot.val());
       const key = Object.keys(snapshot.val());
       //console.log(key);
@@ -57,7 +64,8 @@ export function validUser(username,password,accept,decline){
     value.forEach((doc,index) => {
       if(doc.username.match(username)){
         if(doc.password.match(password)){
-          accept();
+          console.log(doc.userKey);
+          accept(doc.userKey);
           isRight=true;
           console.log("asjdaskhd");
           return;

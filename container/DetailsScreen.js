@@ -10,17 +10,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function DetailsScreen({ route, navigation }) {
     /* 2. Get the param */
-    //const { userId } = route.params;
+    const { userKey } = route.params;
     //const { otherParam } = route.params;
     return (
       <PagerView style={styles.container} initialPage={0}>
       <View key="1">
-        <Review/>
+        <Review userKey = {userKey}/>
       </View>
       <View key="2">
-        <Calendar/>
+        <Calendar userKey ={userKey}/>
       </View>
-      <View key="3">
+      <View key="3" userKey = {userKey}>
         <Add/>
       </View>
       <View key="4">

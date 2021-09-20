@@ -14,7 +14,7 @@ const timeToString = (time) => {
 };
 
 
-export default function CalendarView() {
+export default function CalendarView(props) {
   const [items, setItems] = useState({});
   const [dialogVisible, setDialog] = useState(false);
   const [itemName, setItemName] = useState("");
@@ -25,7 +25,7 @@ export default function CalendarView() {
   const loadItems = (day) => {
     // create and add each day into items (which is each day)
     //  every day we load a item
-    getEventCalendar(getData,day);
+    getEventCalendar(getData,day,props.userKey);
   };
 
   function getData(day,data){
@@ -91,7 +91,7 @@ function connect(){
           <Button
           title="Delete"
           onPress={() => 
-            deleteEvent(itemID)
+            deleteEvent(itemID,props.userKey)
           }
         />
         </View>

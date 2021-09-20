@@ -12,7 +12,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import { useTheme } from 'react-native-paper';
 import { validUser } from './api/DatabaseInteractApi';
-
+import { pushNewKey } from './api/DatabaseInteractApi';
 const SignInScreen = ({navigation}) => {
 
     const [data, setData] = React.useState({
@@ -107,8 +107,8 @@ const SignInScreen = ({navigation}) => {
        validUser(userName,password,accept,decline);
     }
 
-    function accept(){
-        navigation.navigate('Details');
+    function accept(userKey){
+        navigation.navigate('Details',{userKey:userKey});
     }
 
     function decline(){
@@ -201,7 +201,11 @@ const SignInScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('SignUpScreen')}
+                    onPress={() => {
+                            //navigation.navigate('SignUpScreen')
+                            pushNewKey("1111");
+                        }
+                    }
                     style={[styles.signIn, {
                         borderColor: '#009387',
                         borderWidth: 1,

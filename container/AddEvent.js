@@ -9,7 +9,7 @@ const logo = {
   height: 64
 };
 
-export default function Add() {
+export default function Add(props) {
   const [text, setText] = useState('');
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
@@ -25,7 +25,7 @@ export default function Add() {
         time:time,
         name:text,
         description:description,
-      })
+      },props.userKey)
     }
 
   };

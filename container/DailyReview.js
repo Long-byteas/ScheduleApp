@@ -28,7 +28,7 @@ class DailyReview extends React.Component{
     this.dateExact = timeToString(this.date);
     this.items=[];
     this.connect();
-    
+    this.userKey = props.userKey;
   }
 
   state = {
@@ -98,7 +98,7 @@ class DailyReview extends React.Component{
     }));
   }
   componentDidMount() {
-    getEvent(this.OnEventReceived,this.dateExact)
+    getEvent(this.OnEventReceived,this.dateExact,this.userKey)
   }
 
   componentDidUpdate() {
