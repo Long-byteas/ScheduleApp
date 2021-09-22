@@ -1,8 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image,StyleSheet, Text, View, ScrollView,SafeAreaView,Button, TouchableOpacity,CheckBox} from 'react-native';
+import { Image,StyleSheet, Text, View, Button, TouchableOpacity,CheckBox} from 'react-native';
 import React,{useState,useEffect} from 'react';
 import { Dialog } from 'react-native-simple-dialogs';
-
+import { deleteEvent } from '../api/DatabaseInteractApi';
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
   width: 64,
@@ -21,8 +20,15 @@ export default function Task(props) {
         title={props.text}
         onTouchOutside={() => setDialog(false)} >
         <View>
-          <Text style={styles.itemText}> Description : {props.desc} </Text>
-          
+          <Text style={styles.itemText}> Description : {props.desc} {props.id} {props.userKey} </Text>
+          <Button
+          title="Delete"
+          onPress={() => {
+            setDialog(false)
+            deleteEvent(props.id,props.userKey)
+          }
+          }
+        />
         </View>
       </Dialog>
         <View style={styles.itemLeft}>
@@ -31,7 +37,7 @@ export default function Task(props) {
           onValueChange={setSelection}
           style={styles.checkbox}
           />
-          <Text style={styles.itemText}> This is {props.text} {props.time} {'\n'} Is Done: {isDone ? "👍" : "👎"} </Text>
+          <Text style={styles.itemText}> {props.text} {props.time} {'\n'} Is Done: {isDone ? "👍" : "👎"} </Text>
         </View>
         <View style={styles.circular}></View>
     </TouchableOpacity>

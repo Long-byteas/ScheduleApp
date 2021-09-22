@@ -24,18 +24,18 @@ const SignInScreen = ({navigation}) => {
         isValidPassword: true,
     });
 
-    function useAsync(asyncFn, onSuccess) {
-        useEffect(() => {
-          let isActive = true;
-          asyncFn().then(data => {
-            if (isActive) onSuccess(data)
-            else console.log("aborted setState on unmounted component")
-          });
-          return () => {
-            isActive = false;
-          };
-        }, [asyncFn, onSuccess]);
-    }
+    // function useAsync(asyncFn, onSuccess) {
+    //     useEffect(() => {
+    //       let isActive = true;
+    //       asyncFn().then(data => {
+    //         if (isActive) onSuccess(data)
+    //         else console.log("aborted setState on unmounted component")
+    //       });
+    //       return () => {
+    //         isActive = false;
+    //       };
+    //     }, [asyncFn, onSuccess]);
+    // }
 
     const { colors } = useTheme();
 
@@ -202,8 +202,7 @@ const SignInScreen = ({navigation}) => {
 
                 <TouchableOpacity
                     onPress={() => {
-                            //navigation.navigate('SignUpScreen')
-                            pushNewKey("1111");
+                            navigation.navigate('SignUp')
                         }
                     }
                     style={[styles.signIn, {

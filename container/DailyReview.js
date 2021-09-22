@@ -8,7 +8,6 @@ import { getEvent } from './api/DatabaseInteractApi';
 import { getWeatherNow } from './api/WeatherApi';
 import * as Location from 'expo-location';
 import { Dialog } from 'react-native-simple-dialogs';
-
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
   width: 64,
@@ -98,13 +97,18 @@ class DailyReview extends React.Component{
     }));
   }
   componentDidMount() {
+    this.OnEventReceived = this.OnEventReceived.bind(this);
     getEvent(this.OnEventReceived,this.dateExact,this.userKey)
   }
+
 
   componentDidUpdate() {
     //console.log(this.state.eventList.length);
   }
 
+  componentWillUnmount(){
+    getEvent(this.OnEventReceived,this.dateExact,this.userKey)
+  }
   async showWeather(){
     let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -153,10 +157,9 @@ class DailyReview extends React.Component{
         <Text style= {styles.sectionTile}> {this.dateExact}'s Task </Text>
         <StatusBar style="auto" />
         <FlatList
-          title = "Important"
           data={this.state.eventList}
           renderItem={({item,index}) => {
-            return (<Task key={index} text ={item.name} desc={item.description} time={item.time}/>);
+            return (<Task key={index} text ={item.name} desc={item.description} time={item.time} id={item.id} userKey={this.userKey}/>);
           }
           }
           keyExtractor={item => item.id}

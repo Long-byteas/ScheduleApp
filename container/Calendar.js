@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import React, {useState,useEffect} from 'react';
+import React, {useState,useRef} from 'react';
 import {View, TouchableOpacity,Text,StyleSheet,Button} from 'react-native';
 import {Card, Avatar} from 'react-native-paper';
 //import * as data from '../data/dataTest.json'

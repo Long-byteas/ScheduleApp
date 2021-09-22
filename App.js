@@ -1,11 +1,12 @@
 import React from 'react';
-import { Image,StyleSheet, Text, View, ScrollView,SafeAreaView,Button} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './container/HomeScreen'
 import DetailsScreen from './container/DetailsScreen';
 //import TestDb from './container/testDB';
 import firebase from 'firebase'
+import SignUpScreen from './container/SignUpScreen'
 
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -55,6 +56,7 @@ export default function App() {
       >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

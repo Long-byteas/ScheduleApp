@@ -1,14 +1,16 @@
 import firebase from 'firebase'
 
 export function getEvent(eventReceived,dateExact,userKey){
-    console.log(userKey)
-    console.log("asdhaskjdh")
     const reference = firebase.database().ref(`/${userKey}`).on('value',snapshot => {
+      if(snapshot != null){
         var eventList = [];
+        console.log(snapshot.val())
+        console.log("whatttt");
         // snapshot.child().forEach(eventTest => {
         const value = Object.values(snapshot.val());
         const key = Object.keys(snapshot.val());
         // })
+        if(value != null || key !=null){
         value.forEach((doc,index) => {
           doc.id = key[index];
           if(doc.time.match(dateExact)){
@@ -16,11 +18,14 @@ export function getEvent(eventReceived,dateExact,userKey){
             eventList.push(doc);
           }
         });
+        }
         eventReceived(eventList);
+      }
       });
 }
 
 export function updateEvent(event,userKey){
+  console.log(userKey)
   const newReference = firebase.database().ref(`/${userKey}`).push();
   newReference
   .set(event)
@@ -32,13 +37,41 @@ export function writeEvent(){
 }
 
 export function deleteEvent(id,userKey){
-  firebase.database().ref(`/${userKey}`+id).set(null);
-  console.log(id)
+  const reference = firebase.database().ref(`/${userKey}`)
+  reference.on('value',snapshot => {
+    if(snapshot != null){
+      var eventList = [];
+
+      // snapshot.child().forEach(eventTest => {
+      const value = Object.values(snapshot.val());
+      const key = Object.keys(snapshot.val());
+      // })
+      if(value != null || key !=null){
+      value.forEach((doc,index) => {
+        doc.id = key[index];
+        if(key[index].match(id)){
+          console.log("ajsdjashdausdhashdo")
+          var url = "/"+id
+          reference.child(url).remove();
+        }
+      });
+      }
+    }
+    });
 }
 
-export function pushNewKey(key){
-  console.log("push")
-  const newReference = firebase.database().ref().child(`${key}`).set("new");
+export function pushNewKey(username,password){
+  console.log("sigup")
+  const reference = firebase.database().ref('/user').push();
+  var key = reference.key;
+  reference
+  .set({
+    username:username,
+    password:password,
+    userKey: key,
+  })
+  .then(() => console.log('Data updated.'));
+  const newReference = firebase.database().ref().child(`${key}`).set("").then(() => console.log('Add data'));;
 }
 
 export function getEventCalendar(eventReceived,day,userKey){
@@ -64,10 +97,9 @@ export function validUser(username,password,accept,decline){
     value.forEach((doc,index) => {
       if(doc.username.match(username)){
         if(doc.password.match(password)){
-          console.log(doc.userKey);
           accept(doc.userKey);
+          console.log(doc.userKey)
           isRight=true;
-          console.log("asjdaskhd");
           return;
         } else {
           decline();
@@ -75,5 +107,20 @@ export function validUser(username,password,accept,decline){
       }
     });
     
+  });
+}
+
+export function getEventDaily(eventReceived,userKey){
+  const reference = firebase.database().ref(`/${userKey}`).on('value',snapshot => {
+      var eventList = [];
+      var data = Object.values(snapshot.val());
+      const key = Object.keys(snapshot.val());
+      //console.log(key);
+      data.forEach((stuff,index)=>{
+        stuff.id = key[index];
+        eventList.push(stuff)
+      })
+      console.log(eventList);
+      eventReceived(eventList);
   });
 }

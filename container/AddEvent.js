@@ -106,8 +106,10 @@ export default function Add(props) {
         />
         <Button
           title="Submit"
-          onPress={() => 
+          onPress={() =>{ 
             submit()
+            clear()
+          }
           }
         />
 
