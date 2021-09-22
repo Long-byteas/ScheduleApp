@@ -1,5 +1,4 @@
 
-
 export function getWeatherNow(latitude,longitude,eventReceived){
     // var latitude = -41.276825;
     // var longitude = 174.777969;

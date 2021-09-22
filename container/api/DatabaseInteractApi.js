@@ -1,11 +1,14 @@
 import firebase from 'firebase'
-
+import { getData } from '../DBInteract/DBFunction';
+import { pushData } from '../DBInteract/DBFunction';
+import { deleteData } from '../DBInteract/DBFunction';
+import { getUserData } from '../DBInteract/DBFunction';
+import { addUser } from '../DBInteract/DBFunction';
 export function getEvent(eventReceived,dateExact,userKey){
-    const reference = firebase.database().ref(`/${userKey}`).on('value',snapshot => {
-      if(snapshot != null){
+  console.log("ajsdhjkasdhkashd")
+    getData(userKey).on('value',snapshot => {
+      if(snapshot != undefined){
         var eventList = [];
-        console.log(snapshot.val())
-        console.log("whatttt");
         // snapshot.child().forEach(eventTest => {
         const value = Object.values(snapshot.val());
         const key = Object.keys(snapshot.val());
@@ -25,11 +28,7 @@ export function getEvent(eventReceived,dateExact,userKey){
 }
 
 export function updateEvent(event,userKey){
-  console.log(userKey)
-  const newReference = firebase.database().ref(`/${userKey}`).push();
-  newReference
-  .set(event)
-  .then(() => console.log('pushed.'));
+  pushData(event,userKey);
 }
 
 export function writeEvent(){
@@ -37,11 +36,9 @@ export function writeEvent(){
 }
 
 export function deleteEvent(id,userKey){
-  const reference = firebase.database().ref(`/${userKey}`)
+  const reference = getData(userKey)
   reference.on('value',snapshot => {
     if(snapshot != null){
-      var eventList = [];
-
       // snapshot.child().forEach(eventTest => {
       const value = Object.values(snapshot.val());
       const key = Object.keys(snapshot.val());
@@ -50,9 +47,8 @@ export function deleteEvent(id,userKey){
       value.forEach((doc,index) => {
         doc.id = key[index];
         if(key[index].match(id)){
-          console.log("ajsdjashdausdhashdo")
           var url = "/"+id
-          reference.child(url).remove();
+          deleteData(url);
         }
       });
       }
@@ -60,22 +56,18 @@ export function deleteEvent(id,userKey){
     });
 }
 
+
 export function pushNewKey(username,password){
   console.log("sigup")
-  const reference = firebase.database().ref('/user').push();
-  var key = reference.key;
-  reference
-  .set({
+  // pass the userName and key  
+  addUser({
     username:username,
-    password:password,
-    userKey: key,
+    password:password
   })
-  .then(() => console.log('Data updated.'));
-  const newReference = firebase.database().ref().child(`${key}`).set("").then(() => console.log('Add data'));;
 }
 
 export function getEventCalendar(eventReceived,day,userKey){
-  const reference = firebase.database().ref(`/${userKey}`).on('value',snapshot => {
+  getData(userKey).on('value',snapshot => {
       var data = Object.values(snapshot.val());
       const key = Object.keys(snapshot.val());
       //console.log(key);
@@ -87,8 +79,7 @@ export function getEventCalendar(eventReceived,day,userKey){
 }
 
 export function validUser(username,password,accept,decline){
-  const reference = firebase.database().ref('/user').on('value',snapshot => {
-    var eventList = [];
+  getUserData().on('value',snapshot => {
     // snapshot.child().forEach(eventTest => {
     const value = Object.values(snapshot.val());
     const key = Object.keys(snapshot.val());
@@ -111,7 +102,7 @@ export function validUser(username,password,accept,decline){
 }
 
 export function getEventDaily(eventReceived,userKey){
-  const reference = firebase.database().ref(`/${userKey}`).on('value',snapshot => {
+  getData(userKey).on('value',snapshot => {
       var eventList = [];
       var data = Object.values(snapshot.val());
       const key = Object.keys(snapshot.val());
