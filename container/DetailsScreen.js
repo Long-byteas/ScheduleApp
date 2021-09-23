@@ -15,7 +15,7 @@ export default function DetailsScreen({ route, navigation }) {
     return (
       <PagerView style={styles.container} initialPage={0}>
       <View key="1">
-        <Review userKey = {userKey}/>
+        <Review userKey = {userKey} navigation = {navigation}/>
       </View>
       <View key="2">
         <Calendar userKey ={userKey}/>

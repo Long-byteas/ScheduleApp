@@ -30,6 +30,7 @@ class DailyReview extends React.Component{
     this.items=[];
     this.connect();
     this.userKey = props.userKey;
+    this.navigation = props.navigation;
   }
 
   state = {
@@ -131,13 +132,11 @@ class DailyReview extends React.Component{
             <Weather weatherData={this.state.data}/>
           </View>
       </Dialog>
-        <Text style= {styles.sectionTile}> {this.dateExact}'s Task </Text>
+      <View style={styles.containerSmall}>
+        
         <StatusBar style="auto" />
         <TouchableOpacity onPress={() => {
-      this.showWeather()
-      this.setState({
-        dialogVisible:true
-      })
+          this.navigation.navigate('Home')
       }}>
         <View style={styles.addWrapper}>
           <Image
@@ -146,7 +145,21 @@ class DailyReview extends React.Component{
           />
         </View>
       </TouchableOpacity>
-        <ScrollView>
+      <Text style= {styles.sectionTile}> {this.dateExact}'s Task </Text>
+      <TouchableOpacity onPress={() => {
+        this.showWeather()
+        this.setState({
+          dialogVisible:true
+        })
+      }}>
+        <View style={styles.removeButton}>
+          <Image
+          style={{width:30,height:30}}
+          source={{uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAY1BMVEX///8AAAD6+vo9PT05OTmtra3Z2dnc3NywsLDa2trf39+rq6vs7OwGBgbW1tZmZmagoKBhYWFHR0caGhrm5uYjIyP19fVaWlp5eXnBwcGXl5cyMjKenp6BgYG2trZNTU0QEBDwEbGsAAACw0lEQVR4nO3di1LbQAyFYa9JG0gMJLRcQsvl/Z+SgdAOEK/GNpuR9+j/nkAaS5acxNmmAQAAAAAAAAAAAAAAENAuT+83u847jOPZ/ElvtivvSI6jW6T//noHcwzL9NGDdzjlXaTPTr0DKu1n+qr1Dqms5UGCaeMdU1FnhwmmK++gSvrag29+CY3FnhJ99ds7rmIyCepkeHgX3bu+8Y6skFyC6dY7skJyJZrSo3doZeQTvPYOrYzeMbF34R1bEX2D/p3GWpovUZEEs3dRlQSNHvzhHVsRRonKJyhfohoJGjcZ+RLVSFB+0MuPCeMKaiQoPyZY1WonPybke1C+RFnVaseqVjv5EpUfE/KrGmOidvI9KD8mIj/RayQoPybke1C+ROXHhHwPsqrVTr4H5cdE5FVNo0Tlx4R8DzImasfvZGonX6LGoF837cxMSdDowXS1mJuny83YFzqMEp2ru1GvdFSYYErPI17H7c69o51m+Otjt96hTjT4zZydd6ST7QZmuPUOdLLtsARb7zi/Ydhk7LzD/IZh9xpr2M/dsBes9K+hfh/q30sDzEP9nabWvfR8xN8arLyDneJ51CNihY9P454PzY+h0tPJ3Ex4xjevosbnNGYvanyY2DRn+Tvq2ju2QuQ/Eg5RqEaKMoWq34vy3+KH6EVz9GswhoZKivLf5ocYGixwCgIMjQC9GHtoaPz8JEQvBhj9AYYGvajAeOpXSTH2U79KLzI0FDA0FCz1h0aAXgwwNAL0YuwFjkKtBgucAhY4BcbXNiopyr/vzQKnIcACx9BQEOAqGkND47ynAGd2Wb0ocu6ascCpnJ0X4PzDfKHKnGEZ4BzSTKEqnSXbfxWlzgPu7UWtM537rqLYudyHvaiymH7wuVAfvMM5hu5Etwn/WS/2+V2O+GOcyrSrx/v1TmoQAgAAAAAAAAAAAAAA2F4ARUUtQNbm5HYAAAAASUVORK5CYII='}}
+          />
+        </View>
+      </TouchableOpacity>
+      </View>
         <FlatList
           data={this.state.eventList}
           renderItem={({item,index}) => {
@@ -155,7 +168,6 @@ class DailyReview extends React.Component{
           }
           keyExtractor={item => item.id}
           />
-        </ScrollView>
       </View>
 
       </SafeAreaView>
@@ -191,7 +203,6 @@ const styles = StyleSheet.create({
     width:500
   },addWrapper:{
     left:280,
-    bottom:30,
     width:60,
     height:60,
     backgroundColor:'white',
@@ -199,6 +210,19 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
 
-  }
+  },removeButton:{
+    right:280,
+    width:60,
+    height:60,
+    backgroundColor:'white',
+    borderRadius:60,
+    justifyContent:'center',
+    alignItems:'center',
+
+  },containerSmall :{
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between'
+  },
 });
 
