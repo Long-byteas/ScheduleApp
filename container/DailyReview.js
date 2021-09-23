@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Image,StyleSheet, Text, View, ScrollView,SafeAreaView,Button, FlatList} from 'react-native';
+import { Image,StyleSheet, Text, View, ScrollView,SafeAreaView,Button, FlatList,TouchableOpacity} from 'react-native';
 import Task from './components/Task';
 //import * as data from '../data/dataTest.json';
 import firebase from 'firebase'
@@ -8,6 +8,8 @@ import { getEvent } from './api/DatabaseInteractApi';
 import { getWeatherNow } from './api/WeatherApi';
 import * as Location from 'expo-location';
 import { Dialog } from 'react-native-simple-dialogs';
+import Weather from './components/Weather'
+
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
   width: 64,
@@ -35,11 +37,7 @@ class DailyReview extends React.Component{
     geoLocation: {},
     geoError:null,
     dialogVisible:false,
-    weather: "",
-    temp:0,
-    humidity:0,
-    cloudsRate:0,
-    icon:""
+    data:{}
   };
 
   connect(){
@@ -81,16 +79,6 @@ class DailyReview extends React.Component{
   };
 
 
-
-  displayEvent(){
-    if(this.items != null){
-      var what = this.items.map((stuff,index) => {
-        return (<Task key={index} text ={stuff.eventOnThis} />);
-      })
-      return what;
-    }
-  }
-
   OnEventReceived = (eventList) =>{
     this.setState(prevState => ({
       eventList:prevState.eventList =eventList
@@ -109,6 +97,7 @@ class DailyReview extends React.Component{
   componentWillUnmount(){
     getEvent(this.OnEventReceived,this.dateExact,this.userKey)
   }
+
   async showWeather(){
     let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
@@ -119,12 +108,10 @@ class DailyReview extends React.Component{
       getWeatherNow(location.coords.latitude, location.coords.longitude,this.setWeather);
   }
 
-  setWeather = (cloudRate,humidity,temp,weather) =>{
+  setWeather = (data) =>{
+    console.log(data)
     this.setState({
-      cloudsRate:cloudRate,
-      humidity:humidity,
-      temp:temp,
-      weather:weather,
+      data:data
     })
   }
   
@@ -132,30 +119,34 @@ class DailyReview extends React.Component{
     return (
       <SafeAreaView style={styles.container}>
       <View style={styles.taskWrapper}>
-      <Button
-          title="Show weather"
-          onPress={() => {
-            this.showWeather()
-            this.setState({
-              dialogVisible:true
-            })
-          }
-          }
-        />
+      
       <Dialog 
         visible={this.state.dialogVisible} 
         title= " Today Weather "
+        contentStyle={{height: 300, width: 300, paddingBottom: 105}}
         onTouchOutside={() => this.setState({
           dialogVisible:false
         })} >
           <View>
-            <Text> {this.state.weather} tmp is {this.state.temp}  </Text>
-            <Text> {this.state.cloudsRate} </Text>
-            <Text> {this.state.humidity} </Text>
+            <Weather weatherData={this.state.data}/>
           </View>
-        </Dialog>
+      </Dialog>
         <Text style= {styles.sectionTile}> {this.dateExact}'s Task </Text>
         <StatusBar style="auto" />
+        <TouchableOpacity onPress={() => {
+      this.showWeather()
+      this.setState({
+        dialogVisible:true
+      })
+      }}>
+        <View style={styles.addWrapper}>
+          <Image
+          style={{width:30,height:30}}
+          source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtviYsXrEUlCSAw5buhbycBi98gIyMi0EwYcRRwd_Uwp8N1jzg9clbZNjC5B3Vjnsozk4&usqp=CAU'}}
+          />
+        </View>
+      </TouchableOpacity>
+        <ScrollView>
         <FlatList
           data={this.state.eventList}
           renderItem={({item,index}) => {
@@ -164,7 +155,9 @@ class DailyReview extends React.Component{
           }
           keyExtractor={item => item.id}
           />
+        </ScrollView>
       </View>
+
       </SafeAreaView>
     );
   }
@@ -193,6 +186,19 @@ const styles = StyleSheet.create({
   items:{
     marginTop:20,
     
-  },
+  },weather:{
+    height:500,
+    width:500
+  },addWrapper:{
+    left:280,
+    bottom:30,
+    width:60,
+    height:60,
+    backgroundColor:'white',
+    borderRadius:60,
+    justifyContent:'center',
+    alignItems:'center',
+
+  }
 });
 

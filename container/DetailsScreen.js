@@ -23,8 +23,6 @@ export default function DetailsScreen({ route, navigation }) {
       <View key="3" >
         <Add userKey = {userKey}/>
       </View>
-      <View key="4">
-      </View>
     </PagerView>
     );
   }

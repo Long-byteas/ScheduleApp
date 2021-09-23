@@ -128,6 +128,11 @@ const SignInScreen = ({navigation}) => {
                 >
                 </TouchableOpacity>
             </View>
+            { data.password.match(data.confirm_password) ? true : 
+            <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text>Confirm password must be the same.</Text>
+            </Animatable.View>
+            }
             <View style={styles.textPrivate}>
                 <Text style={styles.color_textPrivate}>
                     Thanks for using our app. You have agree 

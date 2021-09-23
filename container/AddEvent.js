@@ -177,8 +177,8 @@ const styles = StyleSheet.create({
     marginRight: 2,
     marginBottom: 10,
     minHeight: 50, //... For dynamic height
-    borderRadius: 50,
-    backgroundColor: "transparent",
+    //borderRadius: 50,
+    backgroundColor: 'white',
     borderWidth: 1,
     borderColor: "gray",
     paddingLeft: 10, //... With respect to the min height, so that it doesn't cut

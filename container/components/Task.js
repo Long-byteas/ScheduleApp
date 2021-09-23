@@ -20,7 +20,7 @@ export default function Task(props) {
         title={props.text}
         onTouchOutside={() => setDialog(false)} >
         <View>
-          <Text style={styles.itemText}> Description : {props.desc} {props.id} {props.userKey} </Text>
+          <Text style={styles.itemText}> Description : {props.desc} </Text>
           <Button
           title="Delete"
           onPress={() => {
@@ -37,7 +37,7 @@ export default function Task(props) {
           onValueChange={setSelection}
           style={styles.checkbox}
           />
-          <Text style={styles.itemText}> {props.text} {props.time} {'\n'} Is Done: {isDone ? "👍" : "👎"} </Text>
+          <Text style={styles.itemText}> {props.desc} {'\n'} Is Done: {isDone ? "👍" : "👎"} </Text>
         </View>
         <View style={styles.circular}></View>
     </TouchableOpacity>

@@ -7,6 +7,7 @@ import firebase from 'firebase'
 import { Dialog } from 'react-native-simple-dialogs';
 import { getEventCalendar } from './api/DatabaseInteractApi';
 import { deleteEvent } from './api/DatabaseInteractApi';
+import Task from './components/TaskCalendar';
 const timeToString = (time) => {
   const date = new Date(time);
   return date.toISOString().split('T')[0];
@@ -15,12 +16,6 @@ const timeToString = (time) => {
 
 export default function CalendarView(props) {
   const [items, setItems] = useState({});
-  const [dialogVisible, setDialog] = useState(false);
-  const [itemName, setItemName] = useState("");
-  const [itemDescription, setItemDescription] = useState("");
-  const [itemTime, setItemTime] = useState("");
-  const [itemHours, setItemHours] = useState("");
-  const [itemID, setID] = useState("");
   const loadItems = (day) => {
     // create and add each day into items (which is each day)
     //  every day we load a item
@@ -79,40 +74,7 @@ function connect(){
     //console.log(data.date[1].name);
     return (
       <View>
-      <Dialog 
-        visible={dialogVisible} 
-        title={itemName}
-        onTouchOutside={() => setDialog(false)} >
-        <View>
-          <Text> {itemTime} </Text>
-          <Text> {itemDescription} </Text>
-          <Text> {itemID} </Text>
-          <Button
-          title="Delete"
-          onPress={() => 
-            deleteEvent(itemID,props.userKey)
-          }
-        />
-        </View>
-      </Dialog>
-      <TouchableOpacity style={{marginRight: 10, marginTop: 17}} onPress={() => {
-        setDialog(true)
-        setItemName(item.name);
-        setItemDescription(item.eventOnThis);
-        setItemTime(item.timeOfthis);
-        setID(item.id);
-        }}>
-        <Card>
-          <Card.Content>
-            <View
-              style={styles.event}>
-              <Text>{item.name}</Text>
-              <Text>{item.timeOfthis}</Text>
-              <Text>{item.id}</Text>
-            </View>
-          </Card.Content>
-        </Card>
-      </TouchableOpacity>
+        <Task item={item} userKey={props.userKey}/>
       </View>
     );
     
