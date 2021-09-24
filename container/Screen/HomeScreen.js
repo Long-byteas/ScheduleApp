@@ -156,11 +156,11 @@ const SignInScreen = ({navigation}) => {
 
             <Text style={[styles.text_footer, {
                 color: colors.text,
-                marginTop: 35
+                marginTop: 34
             }]}>Password</Text>
             <View style={styles.action}>
                 <TextInput 
-                    placeholder="Your Password"
+                    placeholder="Password"
                     placeholderTextColor="#666666"
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={[styles.textInput, {
