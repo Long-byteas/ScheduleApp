@@ -78,11 +78,6 @@ class DailyReview extends React.Component{
     getEvent(this.OnEventReceived,this.dateExact,this.userKey)
   }
 
-
-  componentDidUpdate() {
-    //console.log(this.state.eventList.length);
-  }
-
   componentWillUnmount(){
     // dismount the component to avoid error
     getEvent(this.OnEventReceived,this.dateExact,this.userKey)
@@ -101,7 +96,7 @@ class DailyReview extends React.Component{
   }
 
   setWeather = (data) =>{
-    console.log(data)
+    // set the data into state
     this.setState({
       data:data
     })

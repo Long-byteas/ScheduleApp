@@ -4,7 +4,7 @@ import { Dialog } from 'react-native-simple-dialogs';
 import { deleteEvent } from '../api/DatabaseInteractApi';
 import {Card} from 'react-native-paper';
 
-export default function Task({item},{userKey}) {
+export default function Task({item}) {
   // This is a task using inside of calendar
   const [dialogVisible, setDialog] = useState(false);
   return (
@@ -20,7 +20,7 @@ export default function Task({item},{userKey}) {
           title="Delete"
           onPress={() => {
             setDialog(false)
-            deleteEvent(item.id,userKey)
+            deleteEvent(item.id,item.userKey)
           }
           }
         />

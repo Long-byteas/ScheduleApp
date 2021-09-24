@@ -7,6 +7,7 @@ export async function getWeatherJson(latitude,longitude){
         const json = await response.json();
         return json;
       } catch (error) {
+        // fail then print error
         console.error(error);
       }
 }

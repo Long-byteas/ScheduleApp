@@ -12,7 +12,6 @@ const WeatherScroll = ({weatherData}) => {
 }
 
 const CurrentTempEl = ({data}) => {
-    console.log(data);
     if(data && data.weather){
         // split the data out to display them
         const img = {uri: 'http://openweathermap.org/img/wn/'+ data.weather[0].icon +'@4x.png'}

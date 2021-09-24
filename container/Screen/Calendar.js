@@ -1,8 +1,7 @@
 import {Agenda} from 'react-native-calendars';
 import React, {useState} from 'react';
-import {View,StyleSheet} from 'react-native';
+import {View,StyleSheet,Text} from 'react-native';
 //import * as data from '../data/dataTest.json'
-import firebase from 'firebase'
 import { getEventCalendar } from '../api/DatabaseInteractApi';
 import Task from '../components/TaskCalendar';
 const timeToString = (time) => {
@@ -30,6 +29,7 @@ export default function CalendarView(props) {
           items[strTime] = [];
           var numItem = data.length;
           for( let i=0;i<numItem;i++){
+            // push the item
               if(data[i].time.match(strTime)){
                 items[strTime].push({
                   name : data[i].name,
@@ -43,6 +43,7 @@ export default function CalendarView(props) {
         }
       }
       const newItems = {};
+      // repush item into state
       Object.keys(items).forEach((key) => {
         newItems[key] = items[key];
       });
@@ -52,8 +53,8 @@ export default function CalendarView(props) {
   }
 
   const renderItem = (item) => {
+    item.userKey = props.userKey;
     // with each of the task we make a new task then add into the calendar
-    //console.log(data.date[1].name);
     return (
       <View>
         <Task item={item} userKey={props.userKey}/>
