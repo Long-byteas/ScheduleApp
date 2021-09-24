@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
-import {View, ScrollView, Image, Text, StyleSheet} from 'react-native'
-import { getWeatherNow } from '../api/WeatherApi'
+import React from 'react';
+import {View, Image, Text, StyleSheet} from 'react-native'
+
 
 const WeatherScroll = ({weatherData}) => {
-    console.log(weatherData)
-    console.log("askdhakjshd")
+    // weather data will be the raw data
     return (
         <View style={styles.scrollView}>
             <CurrentTempEl data={weatherData}/>
@@ -15,6 +14,7 @@ const WeatherScroll = ({weatherData}) => {
 const CurrentTempEl = ({data}) => {
     console.log(data);
     if(data && data.weather){
+        // split the data out to display them
         const img = {uri: 'http://openweathermap.org/img/wn/'+ data.weather[0].icon +'@4x.png'}
         return(
             <View style={styles.currentTempContainer}>

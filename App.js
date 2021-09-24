@@ -1,12 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './container/HomeScreen'
-import DetailsScreen from './container/DetailsScreen';
-//import TestDb from './container/testDB';
+import HomeScreen from './container/Screen/HomeScreen'
+import DetailsScreen from './container/Screen/DetailsScreen';
 import firebase from 'firebase'
-import SignUpScreen from './container/SignUpScreen'
+import SignUpScreen from './container/Screen/SignUpScreen'
 
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -17,6 +16,7 @@ const logo = {
 const Stack = createNativeStackNavigator();
 
 function connect(){
+  // connect to the db at the start
   const firebaseConfig = {
     apiKey: "AIzaSyArQ934vak4WKrGkb53spR9i_k2CMsT4sE",
     authDomain: "mobiledev-aa1ec.firebaseapp.com",
@@ -35,6 +35,7 @@ function connect(){
 }
 
 export default function App() {
+  // Divide the app into 3 main screens, each screens will have smaller screen.
   connect();
   return (
     <NavigationContainer>
@@ -61,9 +62,6 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-
-
 
 const styles = StyleSheet.create({
   container: {

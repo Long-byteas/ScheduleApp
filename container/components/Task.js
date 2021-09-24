@@ -1,5 +1,5 @@
-import { Image,StyleSheet, Text, View, Button, TouchableOpacity,CheckBox} from 'react-native';
-import React,{useState,useEffect} from 'react';
+import {StyleSheet, Text, View, Button, TouchableOpacity,CheckBox} from 'react-native';
+import React,{useState} from 'react';
 import { Dialog } from 'react-native-simple-dialogs';
 import { deleteEvent } from '../api/DatabaseInteractApi';
 const logo = {
@@ -9,6 +9,7 @@ const logo = {
 };
 
 export default function Task(props) {
+  // this is a task using to click on
   const [isDone, setSelection] = useState(false);
   const [dialogVisible, setDialog] = useState(false);
   return (

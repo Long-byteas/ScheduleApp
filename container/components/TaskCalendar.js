@@ -1,15 +1,11 @@
-import { Image,StyleSheet, Text, View, Button, TouchableOpacity,CheckBox} from 'react-native';
-import React,{useState,useEffect} from 'react';
+import { StyleSheet, Text, View, Button, TouchableOpacity,CheckBox} from 'react-native';
+import React,{useState} from 'react';
 import { Dialog } from 'react-native-simple-dialogs';
 import { deleteEvent } from '../api/DatabaseInteractApi';
 import {Card} from 'react-native-paper';
-const logo = {
-  uri: 'https://reactnative.dev/img/tiny_logo.png',
-  width: 64,
-  height: 64
-};
 
 export default function Task({item},{userKey}) {
+  // This is a task using inside of calendar
   const [dialogVisible, setDialog] = useState(false);
   return (
     <View>

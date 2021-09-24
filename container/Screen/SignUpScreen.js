@@ -2,19 +2,17 @@ import React from 'react';
 import { 
     View, 
     Text, 
-    Button, 
     TouchableOpacity, 
     TextInput,
-    Platform,
     StyleSheet,
     ScrollView,
     StatusBar
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { pushNewKey } from './api/DatabaseInteractApi';
+import { pushNewKey } from '../api/DatabaseInteractApi';
 
 const SignInScreen = ({navigation}) => {
-
+    // define the data and whats need to signup
     const [data, setData] = React.useState({
         username: '',
         password: '',
@@ -25,6 +23,7 @@ const SignInScreen = ({navigation}) => {
     });
 
     const textInputChange = (val) => {
+        // update data by detecting the changes
         if( val.length !== 0 ) {
             setData({
                 ...data,
@@ -41,6 +40,7 @@ const SignInScreen = ({navigation}) => {
     }
 
     const handlePasswordChange = (val) => {
+        //update password
         setData({
             ...data,
             password: val
@@ -85,7 +85,9 @@ const SignInScreen = ({navigation}) => {
                     placeholder="Your Username"
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(val) => textInputChange(val)}
+                    onChangeText={(val) => 
+                        // detect chane text and update
+                        textInputChange(val)}
                 />
                 {data.check_textInputChange ? 
                 <Animatable.View
@@ -94,7 +96,12 @@ const SignInScreen = ({navigation}) => {
                 </Animatable.View>
                 : null}
             </View>
-
+            {// check if password and confirm password are the same 
+            data.username.length>=4 ? true : 
+            <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text>Username has to be 4 letter or higher.</Text>
+            </Animatable.View>
+            }       
             <Text style={[styles.text_footer, {
                 marginTop: 35
             }]}>Password</Text>
@@ -104,13 +111,23 @@ const SignInScreen = ({navigation}) => {
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(val) => handlePasswordChange(val)}
+                    onChangeText={(val) => 
+                        //detect password and update
+                        handlePasswordChange(val)}
                 />
                 <TouchableOpacity
-                    onPress={updateSecureTextEntry}
+                    onPress={
+                        // check  security (min length of username etc)
+                        updateSecureTextEntry}
                 >
                 </TouchableOpacity>
             </View>
+            {// check if password and confirm password are the same 
+            data.password.length>=8 ? true : 
+            <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text>Password has to be 8 letter or higher.</Text>
+            </Animatable.View>
+            }
 
             <Text style={[styles.text_footer, {
                 marginTop: 35
@@ -128,7 +145,8 @@ const SignInScreen = ({navigation}) => {
                 >
                 </TouchableOpacity>
             </View>
-            { data.password.match(data.confirm_password) ? true : 
+            {// check if password and confirm password are the same 
+            data.password.match(data.confirm_password) ? true : 
             <Animatable.View animation="fadeInLeft" duration={500}>
             <Text>Confirm password must be the same.</Text>
             </Animatable.View>
@@ -149,6 +167,7 @@ const SignInScreen = ({navigation}) => {
                         marginTop: 15
                     }]}
                     onPress={() => {
+                        // trigger the view model to try to push the user to the db
                         pushNewKey(data.username,data.password)
                     }}
                 >
@@ -159,7 +178,9 @@ const SignInScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => navigation.goBack()}
+                    onPress={() => 
+                        // Press the back button to go back to home screen
+                        navigation.goBack()}
                     style={[styles.signIn, {
                         borderColor: '#009387',
                         borderWidth: 1,
@@ -180,6 +201,7 @@ const SignInScreen = ({navigation}) => {
 export default SignInScreen;
 
 const styles = StyleSheet.create({
+    // some asthetic design 
     container: {
       flex: 1, 
       backgroundColor: '#009387'
@@ -191,7 +213,6 @@ const styles = StyleSheet.create({
         paddingBottom: 50
     },
     footer: {
-        flex: Platform.OS === 'ios' ? 3 : 5,
         backgroundColor: '#fff',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
@@ -216,7 +237,6 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 10,
         color: '#05375a',
     },

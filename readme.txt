@@ -24,4 +24,3 @@ DBInteract :
 API :
     DatabaseInteractApi: contains all the logic such as checking valid user, hashing password, find event from the data,find user from the data ,....
     WeatherApi: Processing and finding a specific data
-

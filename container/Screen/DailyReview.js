@@ -1,14 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Image,StyleSheet, Text, View, ScrollView,SafeAreaView,Button, FlatList,TouchableOpacity} from 'react-native';
-import Task from './components/Task';
+import { Image,StyleSheet, Text, View, SafeAreaView, FlatList,TouchableOpacity} from 'react-native';
+import Task from '../components/Task';
 //import * as data from '../data/dataTest.json';
 import firebase from 'firebase'
-import { getEvent } from './api/DatabaseInteractApi';
-import { getWeatherNow } from './api/WeatherApi';
+import { getEvent } from '../api/DatabaseInteractApi';
+import { getWeatherNow } from '../api/WeatherApi';
 import * as Location from 'expo-location';
 import { Dialog } from 'react-native-simple-dialogs';
-import Weather from './components/Weather'
+import Weather from './Weather'
 
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -23,7 +23,11 @@ const timeToString = (date) => {
 
 
 class DailyReview extends React.Component{
+  // daily review is the first screen of the 3
+  // handling showing the  task inside of current day to the user
+  // it also show the weather to the user so they can plan ahead
   constructor(props) {
+    // get the props required
     super(props);
     this.date = new Date();
     this.dateExact = timeToString(this.date);
@@ -33,6 +37,7 @@ class DailyReview extends React.Component{
     this.navigation = props.navigation;
   }
 
+  // make a state, create a data that will be updated in the future inside the app
   state = {
     eventList : [],
     geoLocation: {},
@@ -42,6 +47,8 @@ class DailyReview extends React.Component{
   };
 
   connect(){
+    // try to connect if the connection has already been established it will use the old one
+    // if not , connect
     const firebaseConfig = {
       apiKey: "AIzaSyArQ934vak4WKrGkb53spR9i_k2CMsT4sE",
       authDomain: "mobiledev-aa1ec.firebaseapp.com",
@@ -59,26 +66,6 @@ class DailyReview extends React.Component{
     }
   }
 
-  load() {
-    //const [items, setItems] = useState([]);
-    // load date into items
-    var numItem = this.state.eventList.length;
-    //var current = year + '-' + month + '-' + date;
-    for( let i=0;i<numItem;i++){
-      if(!this.state.eventList[i].time.match(this.dateExact)){
-        // console.log("whattttttt");
-        // this.state.eventList.slice(i,i);
-        // this.setState({eventList:this.state.eventList})
-        // this.items.push({
-        //   name : this.state.eventList[i].name,
-        //   height: Math.max(50, Math.floor(Math.random() * 150)),
-        //   timeOfthis: this.state.eventList[i].time,
-        //   eventOnThis:  this.state.eventList[i].description
-        // });
-      }
-    }
-  };
-
 
   OnEventReceived = (eventList) =>{
     this.setState(prevState => ({
@@ -86,6 +73,7 @@ class DailyReview extends React.Component{
     }));
   }
   componentDidMount() {
+    // check and calling the model view to update the data.
     this.OnEventReceived = this.OnEventReceived.bind(this);
     getEvent(this.OnEventReceived,this.dateExact,this.userKey)
   }
@@ -96,12 +84,15 @@ class DailyReview extends React.Component{
   }
 
   componentWillUnmount(){
+    // dismount the component to avoid error
     getEvent(this.OnEventReceived,this.dateExact,this.userKey)
   }
 
   async showWeather(){
+    // requesting the location from the user and pass it to the api to fetch
     let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
+        // if they do not agree then use wellington location
         getWeatherNow("40.7128", "-74.0060")
         return;
       }

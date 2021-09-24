@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import { 
     View, 
     Text, 
@@ -11,10 +11,9 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useTheme } from 'react-native-paper';
-import { validUser } from './api/DatabaseInteractApi';
-import { pushNewKey } from './api/DatabaseInteractApi';
+import { validUser } from '../api/DatabaseInteractApi';
 const SignInScreen = ({navigation}) => {
-
+    // set the data require to sign in and make some security check
     const [data, setData] = React.useState({
         username: '',
         password: '',
@@ -24,24 +23,11 @@ const SignInScreen = ({navigation}) => {
         isValidPassword: true,
     });
 
-    // function useAsync(asyncFn, onSuccess) {
-    //     useEffect(() => {
-    //       let isActive = true;
-    //       asyncFn().then(data => {
-    //         if (isActive) onSuccess(data)
-    //         else console.log("aborted setState on unmounted component")
-    //       });
-    //       return () => {
-    //         isActive = false;
-    //       };
-    //     }, [asyncFn, onSuccess]);
-    // }
 
     const { colors } = useTheme();
 
-    //const { signIn } = React.useContext(AuthContext);
-
     const textInputChange = (val) => {
+        // change for the length of input
         if( val.trim().length >= 4 ) {
             setData({
                 ...data,
@@ -60,6 +46,7 @@ const SignInScreen = ({navigation}) => {
     }
 
     const handlePasswordChange = (val) => {
+        // check for the length of password
         if( val.trim().length >= 8 ) {
             setData({
                 ...data,
@@ -83,6 +70,7 @@ const SignInScreen = ({navigation}) => {
     }
 
     const handleValidUser = (val) => {
+        // check for the length of the username
         if( val.trim().length >= 4 ) {
             setData({
                 ...data,
@@ -98,6 +86,7 @@ const SignInScreen = ({navigation}) => {
 
 
     const loginHandle = (userName, password) => {
+        // handle the valid -invalid login
         if ( data.username.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}
@@ -108,10 +97,12 @@ const SignInScreen = ({navigation}) => {
     }
 
     function accept(userKey){
+        // if accept then go to the next screen, this will be call back in view model layer
         navigation.navigate('Details',{userKey:userKey});
     }
 
     function decline(){
+        // decline invalid access
         Alert.alert('Invalid User!', 'Username or password is incorrect.', [
             {text: 'Okay'}
         ]);
@@ -141,8 +132,12 @@ const SignInScreen = ({navigation}) => {
                         color: colors.text
                     }]}
                     autoCapitalize="none"
-                    onChangeText={(val) => textInputChange(val)}
-                    onEndEditing={(e)=>handleValidUser(e.nativeEvent.text)}
+                    onChangeText={(val) => 
+                        // check for change and update
+                        textInputChange(val)}
+                    onEndEditing={(e)=>
+                        // check for valid user name (word length is >4?)
+                        handleValidUser(e.nativeEvent.text)}
                 />
                 {data.check_textInputChange ? 
                 <Animatable.View
@@ -151,7 +146,8 @@ const SignInScreen = ({navigation}) => {
                 </Animatable.View>
                 : null}
             </View>
-            { data.isValidUser ? null : 
+            {// if not valid then show the caution 
+            data.isValidUser ? null : 
             <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
             </Animatable.View>
@@ -171,7 +167,9 @@ const SignInScreen = ({navigation}) => {
                         color: colors.text
                     }]}
                     autoCapitalize="none"
-                    onChangeText={(val) => handlePasswordChange(val)}
+                    onChangeText={(val) => 
+                        // same procces with the user
+                        handlePasswordChange(val)}
                 />
                 <TouchableOpacity
                     onPress={updateSecureTextEntry}
@@ -193,7 +191,10 @@ const SignInScreen = ({navigation}) => {
                         borderWidth: 1,
                         marginTop: 15
                     }]}
-                    onPress={() => {loginHandle( data.username, data.password )}}
+                    onPress={() => {
+                        //  when click the button we call the model view layer to connect to 
+                        // model layer to connect to the db to check for valid user
+                        loginHandle( data.username, data.password )}}
                 >
                 <Text style={[styles.textSign, {
                         color: '#009387'
@@ -202,6 +203,7 @@ const SignInScreen = ({navigation}) => {
 
                 <TouchableOpacity
                     onPress={() => {
+                        // navigate to signup page
                             navigation.navigate('SignUp')
                         }
                     }

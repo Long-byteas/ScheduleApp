@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView,Button,TextInput,Alert} from 'react-native';
 import React, {useState} from 'react';
-import { updateEvent } from './api/DatabaseInteractApi';
+import { updateEvent } from '../api/DatabaseInteractApi';
 
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
@@ -17,10 +17,12 @@ export default function Add(props) {
   const [description, setDescription] = useState('');
 
   function submit(){
+    // check the field for missing item
     if(!day.trim()||!month.trim()||!year.trim()){
       Alert.alert('please fill in the missing blank');
     } else {
       var time = year +"-"+ month +"-"+ day;
+      //update it
       updateEvent({
         time:time,
         name:text,
@@ -30,6 +32,7 @@ export default function Add(props) {
 
   };
   function clear(){
+    // clearing out the form
     setDay('');
     setMonth('');
     setText('');
@@ -37,6 +40,7 @@ export default function Add(props) {
     setDescription('');
   }
   return (
+    // how the addview looks like
     <SafeAreaView style={styles.container}>
     <View style={styles.taskWrapper}>
       <Text style= {styles.sectionTile}> Event Add </Text>

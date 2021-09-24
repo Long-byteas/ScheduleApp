@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View} from 'react-native';
 import PagerView from 'react-native-pager-view';
@@ -10,8 +9,8 @@ import Add from './AddEvent';
 export default function DetailsScreen({ route, navigation }) {
     /* 2. Get the param */
     const { userKey } = route.params;
-    console.log(userKey)
-    console.log("shittt")
+    // details screen will have 3 screen, scrolling to the right
+    // they are attached to others.
     return (
       <PagerView style={styles.container} initialPage={0}>
       <View key="1">

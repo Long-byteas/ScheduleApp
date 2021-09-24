@@ -1,13 +1,10 @@
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import React, {useState,useRef} from 'react';
-import {View, TouchableOpacity,Text,StyleSheet,Button} from 'react-native';
-import {Card, Avatar} from 'react-native-paper';
+import {Agenda} from 'react-native-calendars';
+import React, {useState} from 'react';
+import {View,StyleSheet} from 'react-native';
 //import * as data from '../data/dataTest.json'
 import firebase from 'firebase'
-import { Dialog } from 'react-native-simple-dialogs';
-import { getEventCalendar } from './api/DatabaseInteractApi';
-import { deleteEvent } from './api/DatabaseInteractApi';
-import Task from './components/TaskCalendar';
+import { getEventCalendar } from '../api/DatabaseInteractApi';
+import Task from '../components/TaskCalendar';
 const timeToString = (time) => {
   const date = new Date(time);
   return date.toISOString().split('T')[0];
@@ -25,14 +22,14 @@ export default function CalendarView(props) {
   function getData(day,data){
     setTimeout(() => {
       for (let i = -15; i < 85; i++) {
+        // we find the time inside the array then create a new object for it to
+        // push into the calendar
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = timeToString(time);
         if (!items[strTime]||true) {
           items[strTime] = [];
           var numItem = data.length;
           for( let i=0;i<numItem;i++){
-              //var name = data.date[i];
-              //console.log(data[i].id)
               if(data[i].time.match(strTime)){
                 items[strTime].push({
                   name : data[i].name,
@@ -49,28 +46,13 @@ export default function CalendarView(props) {
       Object.keys(items).forEach((key) => {
         newItems[key] = items[key];
       });
+      //updating items to the list 
       setItems(newItems);
     }, 1000);
   }
-function connect(){
-    const firebaseConfig = {
-      apiKey: "AIzaSyArQ934vak4WKrGkb53spR9i_k2CMsT4sE",
-      authDomain: "mobiledev-aa1ec.firebaseapp.com",
-      databaseURL: "https://mobiledev-aa1ec-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "mobiledev-aa1ec",
-      storageBucket: "mobiledev-aa1ec.appspot.com",
-      messagingSenderId: "608672896457",
-      appId: "1:608672896457:web:260f053007dda17c178418",
-      measurementId: "G-4NPZJD2M6Y"
-    };
-    if(!firebase.apps.length){
-      firebase.initializeApp(firebaseConfig);
-    } else {
-      firebase.app();
-    }
-}
 
   const renderItem = (item) => {
+    // with each of the task we make a new task then add into the calendar
     //console.log(data.date[1].name);
     return (
       <View>
@@ -81,6 +63,7 @@ function connect(){
   };
   
   const renderEmptyDate = () => {
+    // deals with emptyday
     return (
       <View style={{flex: 1}}>
       </View>
