@@ -1,7 +1,6 @@
 import {Agenda} from 'react-native-calendars';
 import React, {useState} from 'react';
-import {View,StyleSheet,Text} from 'react-native';
-//import * as data from '../data/dataTest.json'
+import {View,StyleSheet} from 'react-native';
 import { getEventCalendar } from '../api/DatabaseInteractApi';
 import Task from '../components/TaskCalendar';
 const timeToString = (time) => {
