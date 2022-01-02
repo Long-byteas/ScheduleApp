@@ -1,7 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { Image,StyleSheet, Text, View, ScrollView,SafeAreaView,Button, TouchableOpacity} from 'react-native';
-
+import {StyleSheet, Text, View, Button, TouchableOpacity,CheckBox} from 'react-native';
+import React,{useState} from 'react';
+import { Dialog } from 'react-native-simple-dialogs';
+import { deleteEvent } from '../api/DatabaseInteractApi';
 const logo = {
   uri: 'https://reactnative.dev/img/tiny_logo.png',
   width: 64,
@@ -9,15 +9,39 @@ const logo = {
 };
 
 export default function Task(props) {
+  // this is a task using to click on
+  const [isDone, setSelection] = useState(false);
+  const [dialogVisible, setDialog] = useState(false);
   return (
-    <View style={styles.items}>
+    <TouchableOpacity style={styles.items} onPress={() => {
+      setDialog(true)
+      }}>
+      <Dialog 
+        visible={dialogVisible} 
+        title={props.text}
+        onTouchOutside={() => setDialog(false)} >
+        <View>
+          <Text style={styles.itemText}> Description : {props.desc} </Text>
+          <Button
+          title="Delete"
+          onPress={() => {
+            setDialog(false)
+            deleteEvent(props.id,props.userKey)
+          }
+          }
+        />
+        </View>
+      </Dialog>
         <View style={styles.itemLeft}>
-            <TouchableOpacity style={styles.square}></TouchableOpacity>
-            
-            <Text style={styles.itemText}> This is a task {props.text} </Text>
+          <CheckBox
+          value={isDone}
+          onValueChange={setSelection}
+          style={styles.checkbox}
+          />
+          <Text style={styles.itemText}> {props.desc} {'\n'} Is Done: {isDone ? "👍" : "👎"} </Text>
         </View>
         <View style={styles.circular}></View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -58,5 +82,8 @@ const styles = StyleSheet.create({
   },
   itemText:{
     maxWidth:'80%',
+  },
+  checkbox: {
+    alignSelf: "center",
   },
 });
